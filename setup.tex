@@ -1,5 +1,5 @@
 
-\usepackage[left=4.5cm, width=14.00cm, height=21.00cm]{geometry}
+\usepackage[width=15.50cm, height=24.00cm]{geometry}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -35,42 +35,17 @@
 
 \captionsetup{font = {it, small}, labelfont={color=NavyBlue, bf}}
 
-
-
-\newcommand{\kkt}{Karush-Kuhn-Tucker}
 \renewcommand{\L}{\mathscr{L}}
-\newcommand{\aL}{\mathscr{L}^{-1}}
-\newcommand{\laplace}[1]{\mathscr{L} \left\{ #1 \right\}}
-\newcommand{\antilaplace}[1]{\mathscr{L}^{-1} \left\{ #1 \right\} }
-\newcommand{\re}[1]{\textrm{Re}\left(#1\right)}
-\newcommand{\im}[1]{\textrm{Im}\left(#1\right)}
-\newcommand{\lapint}{\int_{0^-}^\infty}
-\renewcommand{\c}{^*}
-\newcommand{\R}{\mathds R}
-\newcommand{\vett}[1]{\boldsymbol{#1}}
-\newcommand{\vstar}[1]{\vett{#1}^*}
-\newcommand{\lag}{\mathcal L}
+\newcommand{\aL}{\L^{-1}}
+\newcommand{\laplace}[1]{\L \left\{ #1 \right\}}
+\newcommand{\antilaplace}[1]{\L^{-1} \left\{ #1 \right\} }
+\renewcommand{\Re}[1]{\mathds{R}\textrm{e}\left\{#1\right\}}
+\renewcommand{\Im}[1]{\mathds{I}\textrm{m}\left\{#1\right\}}
+
+
+
+
 \newcommand{\de}[1]{\textbf{\textcolor{NavyBlue}{#1}}}
-\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
-\newcommand{\act}{\mathcal A}
-%\renewcommand{\epsilon}{\varepsilon}
-\newcommand{\eps}[1]{\epsilon_{#1}}
-\newcommand{\figura}[5]{\begin{SCfigure}[#2][b!h!t!]
-		\centering
-		\includegraphics[width=#1 cm]{#3}
-		\caption{#4} \label{#5}
-\end{SCfigure}}
-\newcommand{\fun}[1]{\mathcal{#1}}
-\newcommand{\F}{\mathcal F}
-\newcommand{\s}{^*}
-\renewcommand{\matrix}[1]{\begin{bmatrix} #1 \end{bmatrix}}
-\renewcommand{\vector}[1]{\begin{pmatrix} #1 \end{pmatrix}}
-\newcommand{\zkm}{z_{k-\frac 12}}
-\newcommand{\zkp}{z_{k+\frac 12}}
-\newcommand{\argref}[1]{{\scriptscriptstyle  (#1) }}
-\newcommand{\Lt}{\tilde{\mathcal L}}
-\renewcommand{\H}{\mathcal{H}}
-\newcommand{\B}{\mathcal{B}}
 \newcommand{\bfcolor}[1]{\renewcommand*{\textbf}[1]{{\bfseries {\color{#1}##1}}}}
 
 \setcolumnwidth{0.3\textwidth}
