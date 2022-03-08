@@ -1,41 +1,164 @@
 \chapter{Linear Systems with N Degrees of Freedom}
-	Studying vibrations relates to the study of the system by building it's \de{mathematical model} based on \textbf{physical property} and the \textbf{accuracy} wanted in the description of the system itself (it's not necessary to describe the system \textit{at atomic detail} if we are only interested in the gross motion).
-	
-	\textbf{AGGIUNGERE ESMPIO DEL PENDOLO}
-	
-	Models can be arbitrarily \textit{simple} or \textit{complex} that depends on a various number of \textbf{parameters} and \textbf{degrees of freedom}. In particular \de{dynamical systems} ca be classified
+\section{Lumped parameter systems}
+\subsection{1 Degree of Freedom}
+	The idea of \de{lumped system} is to concentrate the \textbf{parameters} of the system, in particular:
 	\begin{itemize}
-		\item as \textbf{linear} or \textbf{non-linear}: such property is a matter of model decision and no system is linear in reality. In general for \textit{low displacements} from the equilibrium the linear model converges to the true non-linear behaviour;
+		\item the \de{springs elements} where mostly of the elastic energy is stored (conservation of energy) and is assumed to be mass-less. Considering the \textbf{SCHEMATIC} of such element, we see that it's graphical representation present two connecting point that model the position on where the two ends of the springs are attached; those ends are subjected to forces $F_1,F_2$ and considering is center of gravity $G$ we have that, for Newton
+		\[ \sum_i F_i = \cancelto 0{m \ddot x_G} \qquad \Rightarrow \qquad F_1 = F_2 = F\]
+		We have so proven that such lumped spring elements doesn't permit load unbalance to their ends; regarding the behaviour of the system, is we assume that's the spring it's linear we can consider the force as linearly proportional to displacement, hence
+		\begin{equation}
+			F = k \big(x_2-x_1\big)
+		\end{equation}
+		where $k$ is the \de{stiffness} of the spring. When $x_2 -x_1 = 0$ we have that the spring absorbs no force;
 		
-		\item depending on the inputs that can be \textbf{deterministic} or \textbf{random} (this will require a statistical description of the system).
+		\item the \de{damper elements} describing the dissipative forces related to velocity; this element is still mass-less. Considering it's \textbf{SCHEMATIC}, the Newton equations determines
+		\[ \cancelto0{m\ddot x_G} = F_2 - F_1 \qquad \Rightarrow \qquad F_2 = F_1 = F \]
+		hence, as for the spring, such element isn't allowed to have different forces transmitted through it's ends. If we consider a \textbf{linear dumper} model the generated force $F$ can be regarded as
+		\begin{equation}
+			F = c \big(\dot x_2 - \dot x_1\big)
+		\end{equation}
+		where $c$ is the \de{viscous dumping} coefficient of the element;
+		
+		\item the \de{lumped mass} where all the mass of the system is concentrated and so contains the kinetic energy of the signal. Given $x$ the center of the mass of weight $m$, using Newton's law we have that
+		\begin{equation}
+			F = m \ddot x
+		\end{equation}		
 	\end{itemize}
+	\textbf{AGGIUNGERE LE FIGURE}
 	
+	Real system aren't linear, however we can use the Taylor's series truncated to the first order to model every system as linear (within a certain range).
 	
+	\paragraph{Damped } Considering the system in \textbf{FIGURE} (FARE LA FIGURA) where the mass $m$ is subjected to it's body-weight force $mg$ (pointing downward) and an external force $f(t)$; setting to $y=0$ the coordinate were the elastic force is equal to zero, we can rewrite it's equation of motion by disassembling the components and considering the forces that they generates:
+	\begin{align*}
+		m \ddot y & = F_{spring} + F_{dumper} + F_{weigth} + f(t) \\
+		& = - k y - c \dot y - mg + f(t)
+	\end{align*}
+	Such equation has a static solution, in fact if we consider $y_{st} = k\in \mathds R$ (hence $\dot y = \ddot y = 0$) we have that
+	\[ 0 = -ky - mg \qquad \Rightarrow \qquad y_{st} = - \frac{mg}{k} \]
+	Considering now the scale $x$ whose zero is for $y = - mg/k$ (the static solution of the differential equation), we have the substitution $x = y - y_{st}$ that determines the differential equation
+	\begin{equation} \label{eq:lin1:temp1}
+	\begin{aligned}
+		m\big(\ddot x + \cancel{\ddot y_{st}}\big) & = - k (x+ y_{st}\big) - c \big(\dot x + \cancel{\dot y_{st}}\big) - mg + f(t) \\
+		m\ddot x & = - k x - \cancel{(-mg)} - c\dot x -\cancel{ mg }+ f(t) \\
+		m\ddot x + c\dot x + k x& = f(t)
+	\end{aligned} 
+	\end{equation}
+	In this equation the first term $m\ddot x + c\dot x + kx$ represent the \de{logic of the system}, while on the right hand side $f(t)$ we have the \de{external action}, the input of the system.
 	
+	\subsubsection{Properties}
+		Equation \ref{eq:lin1:temp1} represent an \textbf{ordinary linear differential equation} in the spatial dimension $x(t)$ with \textbf{constant coefficients} for the differential terms. In the particular case presented, having a non-zero term on the right-hand side we have that the differential equation is \textbf{non-homogeneous}.
+		
+	\subsubsection{General method for solving ordinary linear differential equations with constant coefficients}
+		
+		Given the linear ordinary differential equation with constant coefficient
+		\begin{equation}
+			a_n \frac{d^ny}{dt^n} + a_{n-1} \frac{d^{n-1}y}{dt^{n-1}} + \dots + a_0 y = b_m \frac{d^mu}{dt^m} + b_{m-1} \frac{d^{m-1}u}{dt^{m-1}} + \dots + b_0 u
+		\end{equation}
+		where $u$ represent the input of a system and $y$ it's output. Such system requires to known all the past history of the input to build the output, however considering it's states $x$. In order to find the solution we have to consider the following hypothesis:
+		\begin{align*}
+			i)& \qquad u(t) = 0 \qquad \textrm{for } t < 0 \\
+			ii)& \qquad u(t) \textrm{is piecewise continuous} \\
+			iii) & \qquad \textrm{states of the systems are known for } t = 0
+		\end{align*}
+		where the $n$ states $x_i$ are regarded as the output $y$ and all it's derivative up to order $n-1$, hence
+		\[ x_1 = y(0) , \ x_2 = \dot y(0), \ \dots, \ x_n = y^{(n-1)}(0) \]
+		If all this conditions are satisfied we can fined the solution $y(t)$ of the system as
+		\begin{equation}
+			y(t) = y_{homogeneous}(t) + y_{particular}(t)
+		\end{equation}
 	
+		\paragraph{Solution of the homogeneous} The solution of the homogeneous is obtained by neglecting the input (right-hand side of the differential equation) and so considering only
+		\[ a_n \frac{d^ny}{dt^n} + a_{n-1} \frac{d^{n-1}y}{dt^{n-1}} + \dots + a_0 y = 0 \]
+		If we now consider each differentiation as a polynomial in a complex variable $\lambda \in \mathds C$ we have that
+		\[ p(\lambda) = a_n \lambda^n + a_{n-1} \lambda^{n-1} + \dots + a_0 \lambda^0 = 0 \]
+		The polynomial $p(\lambda)$ has $n$ roots that each can have a multiplicity $\mu_i$; associated to each root we have an associated homogeneous solution described as
+		\begin{align*}
+			y_{h,1} &= c_{11} e^{\lambda_1 t} + c_{12} t e^{\lambda_1 t} + \dots + c_{1\mu_1} t^{\mu_1-1} e^{\lambda_1 t} \\
+			y_{h,2} &= c_{21} e^{\lambda_2 t} + c_{22} t e^{\lambda_2 t} + \dots + c_{2\mu_2} t^{\mu_2-1} e^{\lambda_2 t}
+		\end{align*}
+		hence in general for $N$ different roots we have
+		\begin{equation}
+			y_h(t) = \sum_{i=1}^{N} \sum_{j=1}^{\mu_i} c_{ij} t^{j-1} e^{\lambda_i t}
+		\end{equation}
+		
+		\paragraph{Particular solution} To determine the solution it's necessary to find a function $y$ that satisfy the whole differential equation.
 	
+	\subsubsection{Laplace transform approach}
+		Solution of linear ordinary differential equation can be obtained considering the \textbf{Laplace transform}
+		\[ \laplace{f(t)} = F(s) := \int_0^\infty f(t) e^{-st}\, dt \qquad s\in \mathds C \]
+		that transform differential equation in $t$ into algebraic equations in $s$, in fact it's proven that
+		\[ \laplace{ f^{(n)}} = s^n F(s) - \sum_{i=0}^{n-1} s^{n-i-1}f^{(i)}(0) \]
+		The idea is so to the find the solution in the domain of $s$ and then find the solution in time by using the inverse Laplace transform
+		\begin{equation}
+			f(t) = \antilaplace{F(s)} : = \frac 1{2\pi j} \int_{\alpha - j\infty}^{\alpha + j\infty} F(s) e^{st}\, ds \qquad \textrm{with } j = \sqrt{-1}
+		\end{equation}
+		This transformation is very useful due to the linearity property of $\mathscr L$, in fact
+		\[ \laplace{a\, f(t) + b \,g(t)} = a \laplace{f(t)} + b \laplace{g(t)} \qquad \forall a,b \in \mathds C \]
+		
+		Using techniques in time we seen that in such domain the output of the system is the combination of terms in the form $t^n e^{at}$ whose transform is
+		\begin{equation} \label{eq:lin:inverseexponential}
+			\laplace{t^n e^{at}} = \frac{n!}{(s-a)^{n+1}} \qquad \forall n \in \mathds N,a\in \mathds C
+		\end{equation}
+		Applying this rule we can determine such common examples of Laplace transform as
+		\begin{align*}
+			\laplace{1(t)} & = \frac 1 s && a = n = 0 \\
+			\laplace{\sin(\omega t)} = \laplace{\frac{e^{j\omega t} - e^{-j\omega t}}{2j}} & = \frac{\omega}{s^2 + \omega^2}&& n = 0, a = \pm j\omega
+		\end{align*}	
+		
+		\paragraph{Application of the Laplace transform} Considering the differential equation \ref{eq:lin1:temp1} (page \pageref{eq:lin1:temp1}) defined as $m\ddot x + c\dot x + kx = f(t)$, we can find the solution in the $s$ domain applying the Laplace transform on such equation, determining:
+		\begin{align*}
+			m\big(s^2 X(s) - s x(0) - \dot x(s)\big) + c \big(sX(s) - x(0)\big) + kX(s) & = F(s) \\
+			\big(ms^2 + cs - k\big)X(s) & = msx(0) + m\dot x(0) + cx(0) + F(s)
+		\end{align*}
+		We have so a polynomial problem in $s$ that can be solved determining
+		\[ X(s) = \underbrace{\frac{msx_0+ m\dot x_0 + cx_0}{ms^2 + cs + k}}_\textrm{homogeneous sol.} + \underbrace{\frac{1}{ms^2 + cs + k}F(s)}_\textrm{particular sol.} \]
+		The first term is usually called \textbf{free response} while the second is the \textbf{forced response}; the term $\frac{1}{ms^2 + cs + k} $ represent the \textbf{transfer function} of the system. From this expression we define the \de{natural angular frequency} $\omega_n$ and the \de{damping ratio} $\zeta$ defined as
+		\begin{equation}
+			\omega_n = \sqrt{ \frac k m} \hspace{2cm} \zeta =\frac{c}{c_c} = \frac{c}{2\sqrt{km}} = \frac{c}{2c \omega_n}
+		\end{equation}
+		This parameters allows to rewrite the response of the system as
+		\begin{equation} \label{eq:lin1:temp2}
+			X(s) = \frac{x_0s + \dot x_0 + 2 \zeta \omega_n x_0}{s^2 + 2 j\omega_ns + \omega_n^2} + \frac{1/m}{s^2 + 2 j \omega_n s + \omega_n^2} F(s)
+		\end{equation}
+		
+		In general the solution in the Laplace domain can be described as a sum of the homogeneous solution and the particular one as rational polynomial in the form
+		\[ X(s) = \frac{A(s)}{B(s)} + \frac{N(s)}{D(s)} U(s) \]
+		We refer to the roots of the nominators $A(s),N(s)$ as \textbf{zeros} while the one of the denominators $B(s),D(s)$ are the \textbf{poles}.
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		Returning to the example, the poles $p_i$ of the homogeneous term in equation \ref{eq:lin1:temp2} can be simply calculates as
+		\[ p_{1,2} = - \zeta \omega_n \pm \sqrt{\zeta^2\omega_n^2 - \omega_n^2} = -\zeta \omega_n \pm \omega_n \sqrt{\zeta^2 - 1} \]
+		Depending on the value of the damping ratio $\zeta$ the poles can be real ($\zeta > 1$) or complex conjugated (for $\zeta < 1$). In particular the cases are
+		\begin{itemize}
+			\item if $\zeta = 0$ we have the poles in $p_{1,2} = \pm j\omega_n$ that are purely imaginary and each pole has a multiplicity $\mu = 1$;
+			\item if $0 < \zeta< 1$ the poles are $p_{1,2} = - \zeta \omega_n \pm j\omega_n \sqrt{1-\zeta^2}= -\zeta \omega_n \pm j\omega_d$ and so are complex conjugated. The magnitude of such complex root is
+			\[ |p_{1,2}| = \sqrt{\zeta^2 \omega_n^2 + \omega_n^2(1-\zeta^2)} = \omega_n \]
+			\item if $\zeta = 1$ we have a double root (multiplicity $\mu = 2$) in $p_{1,2} = - \omega_n$;
+			\item if $\zeta> 1$ the poles are purely real $p_{1,2} = -\zeta \omega_n \pm \omega_n \sqrt{\zeta^2-1}$ and their multiplicity is unitary ($\mu = 1$).
+		\end{itemize}
+		
+		\paragraph{Time response of the homogeneous} Considering the homogeneous term, assuming the initial state as zeros ($x_0 = 0$) for simplicity we have
+		\[ X_h(s) = \frac{ \dot x_0}{s^2 + 2 j\omega_ns + \omega_n^2} \]
+		Applying the partial fraction decomposition we can obtain a transfer function in the form (where we consider that all poles have multiplicity $\mu =1$, so the case $\zeta = 1$ cannot be described by this expression):
+		\[ X_h(s) = \frac{R_{1h}}{s-p_1} + \frac{R_{2h}}{s-p_2} \]
+		We can compute the residuals as
+		\begin{align*}
+			R_{1h} & = \left.\left[ (s-p_1) X_h(s)\right] \right|_{s=p_1} = \frac{\dot x_0}{p_1-p_2} \\
+			R_{2h} & = \left.\left[ (s-p_2) X_h(s)\right] \right|_{s=p_2} = \frac{\dot x_0}{p_2-p_1} 		
+		\end{align*}
+		Considering the result of equation \ref{eq:lin:inverseexponential} we can consider the partial fraction decomposition with parameters $n=0$ and $a = p_1,p_2$. In particular considering the linearity we have that
+		\[ x_h(t) = \antilaplace{X(s)} = R_{1h} t^0 e^{p_1t} + R_{2h} t^0 e^{p_2t} = R_{1h} e^{p_1t} + R_{2h} e^{p_2t}  \]
+		Depending on the \textit{type} of the poles (real or imaginary), the general behaviour of the system might differs and we have to use mathematical complex equation to determine the final expression in time. Furthermore
+		\begin{itemize}
+			\item if $0 < \zeta < 1$ we have complex conjugated poles in the form $p_{1,2} = -\zeta \omega_n \pm j\omega_d$ (with $\omega_d = \omega_n\sqrt{1-\zeta^2}$), hence the residuals becomes
+			\[ R_{1h} = \frac{\dot x_0}{p_1-p_2} = \frac{\dot x_0}{2j \omega_d} \frac{-j}{-j} = - j \frac{\dot x_0}{2\omega_d}  \hspace{2cm} R_{2h} = j \frac{\dot x_0}{2\omega_d} \]
+			Observing that the residual are also complex conjugated ($R_{2h} = R_{1h}^*$) as the poles, we can write the full solution of the homogeneous in the time domain as
+			\begin{equation}
+			\begin{aligned}
+				x_h(t) & = R_{1h} e^{p_1t} + R_{2h} e^{p_2t} \\
+				& = 2 \frac{\dot x_0}{2\omega_d} e^{-\zeta \omega_n t} \cos\left( -\frac \pi 2 + \omega_d t \right) = \frac{\dot x_0}{\omega_d} e^{-\zeta \omega_n t} \sin\left( \omega_d t \right)
+			\end{aligned}
+			\end{equation}
+		\end{itemize}
 	
 	
 	
