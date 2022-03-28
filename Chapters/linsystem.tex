@@ -288,8 +288,22 @@
 	\[ X_{h2}(s) = \underbrace{\frac{R_{21}}{s-p_1} + \frac{R_{22}}{s-p_2}}_{X_{21}(s) \mapsto x_{21}(t) } + \underbrace{\frac{R_{23}}{s-p_3} + \frac{R_{24}}{s-p_4}}_{X_{23}(s)\mapsto x_{23}(t)} \]
 	This means that the homogeneous response (considering the preliminary assumption formulated) is in the form
 	\[ X_{hom}(s) = \vec{R_{11} \\ R_{21} } e^{p_1 t} + \vec{R_{12} \\ R_{22} } e^{p_2 t} + \vec{R_{13} \\ R_{23} } e^{p_3 t} + \vec{R_{14} \\ R_{24} } e^{p_4 t} \]
+	Assuming that the pairs of poles $p_1,p_2$ and $p_3,p_4$ are complex conjugated (as well as their residuals), the inversion of such transfer function is a linear combination of 2 oscillating exponentials:
+	\begin{align*}
+		x_{h1}(t) = x_{11}(t) + x_{13}(t) \qquad \textrm{where} \quad & x_{11}(t) = 2 |R_{11}| e^{\Re{p_1} t}\cos\big(\Im{p_1} t +\angle{R_{11}}\big) \\
+		& x_{13}(t) = 2 |R_{13}| e^{\Re{p_3} t}\cos\big(\Im{p_3} t +\angle{R_{13}}\big)
+	\end{align*}
 	
-	\textbf{MANCA DA FINIRE LA LEZIONE DEL 21 MARZO}
+	\begin{figure}[bht]
+		\centering
+		\begin{subfigure}{0.48\linewidth}
+			\centering \includegraphics[width=\linewidth]{2dof-a} \caption{}
+		\end{subfigure}
+		\begin{subfigure}{0.48\linewidth}
+			\centering \includegraphics[width=\linewidth]{2dof-b} \caption{}
+		\end{subfigure}
+		\caption{example of free response in the time domain of the first homogeneous component a 2 degrees of freedom system characterized by poles $p_1 = -0.2 + j$, $p_3 = -0.3 + j5$ and residuals $R_{11} = 3 e^{j1}$ and  $R_{13} = e^{j2}$; in $(a)$ we have the "parts" associated to the poles (in blue $x_{11}$ associated to $p_1$, $x_{13}$ in orange for $p_3$) and in $(b)$ the overall time response $x_{h1}(t) = x_{11}(t) + x_{13}(t)$.  }
+	\end{figure}
 	
 	
 \subsubsection{Free vibration and natural frequencies}
