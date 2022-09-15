@@ -355,9 +355,60 @@
 	\[ b_1 \ddot q_1 - \omega_1^2 b_1 q_1 = f_1 \]
 		
 		
+	\textbf{LEZIONE DEL 28 MARZO}
+	
+	\subsubsection{2 DOF system with zero pole cancellation}
 		
+		\textbf{FARE LO SCHEMA}
 		
-		
+		Considering the rotating shaft drawn in \textbf{FIGURE}, we are interested in characterizing the lateral displacement of the system due to the working force $p(t)$ on the shaft. Considering that the bearings can be regarded as linear springs with equal coefficient $k = 5\cdot 10^6 N/m$ and that the shaft weights $m = 83.233 kg$, knowing the parameters $l = 0.2m,L=0.6m$ we can
+		\begin{enumerate}[\itshape i)]
+			\item compute the equation of motion neglecting the gyroscopic effects. Considering the free body diagram in \textbf{FIGURE DA FARE}, the Newton's equations of motion are
+			\[ \begin{cases}
+				m \ddot x = - k x_A  - k x_B + p \\ J_G \ddot q = kx_A \frac L 2 \cos q + k x_B\left( \frac L2 - l \right) \cos q + p \frac L 2 \cos q
+			\end{cases} \]
+			where the displacements of the bearings can be computed as function of the lagrangian coordinates $x,q$ as
+			\[ x_A = x - \frac L 2 \sin q \qquad x_B = x - \left( \frac L 2 - l \right) \sin q \qquad x_C = x + \frac L 2 \sin q \]
+			We observe that all this relations are non-linear (due to the (co)sine terms), however hypothesising that the deviation with respect to the rest position is small (for $x,q\approx 0$) then we obtain the linearized system
+			\[ \begin{cases}
+				m\ddot x = - k \left( x - \frac L 2 q \right) - k \left( x - \left(\frac L 2 -l\right)q \right) + p \\
+				J_G \ddot q = k \left(x-\frac L 2 q\right) \frac L 2 + k \left( x - \left( \frac L 2 - l\right) q \right) + p \frac L 2
+			\end{cases} \]
+			Observing now that the system is linear in $x,q$ and it's derivative, we can express the system as
+			\[ \underbrace{\matrix{m & 0 \\ 0 & J_G}}_{=\mat M} \vec{\ddot x \\ \ddot q} + \underbrace{\matrix{2k & - k(L-l) \\ -k(L-l) & k \left( l^2 + \frac {L^2}2 - lL \right) }}_{=\mat K} \vec{x\\ q} = \vec{p \\ \frac L 2 p} \]
+			whose numerical form is
+			\[ \matrix{83.233 & 0 \\ 0 & 2.497} \vec{\ddot  x \\ \ddot q} + \matrix{10^7 & -2\cdot 10^6 \\ -2 \cdot 10^6 & 5\cdot 10^5} \vec{x \\ q} = \vec{p \\ 0.3p} \]
+			where the barycentric moment of inertia $J_G$ has been evaluated as $\frac 1{12}mL^2$. \\
+			Having no damping in the system we know that the poles of the transfer function are purely imaginary (and are complex conjugated in pairs) and the forced response is either in phase or phase opposition respect to the motion; lastly in this case the free oscillations are described by the modes of the system.
+			
+			\item we can find the mode of vibration solving  the eigenvalues (the natural frequencies $\omega_i$) of the system by imposing
+			\[ \det \big(\mat K - \omega^2 \mat M \big) = 207.83\omega^4 - 6.6586\cdot 10^7 \omega^2  + 10^{12} = 0 \]
+			Substituting $\omega^2 = \Omega$ we obtain two solution $\Omega_1,\Omega_2$ that determines the 4 natural frequencies $\omega = \sqrt \Omega$ of the system (that are opposite in pairs) resulting in
+			\[ \omega_1 = 125.686 rad/s \hspace{2cm} \omega_2 = 551.897 rad/s  \]
+			To determine the the modal shape we have to solve for the eigenvectors of the system resulting in
+			\begin{align*}
+				\big(\mat K - \omega_1^2 \mat M\big) \vec{u_{11} \\ u_{21} } & = \vett 0 \qquad & \Rightarrow \qquad u_{21} & = 4.343 u_{11} \\
+				\big(\mat K - \omega_2^2 \mat M\big) \vec{u_{12} \\ u_{22} } & = \vett 0 \qquad & \Rightarrow \qquad u_{22} & = -7.676 u_{12} 
+			\end{align*}
+			This values allows us to \textit{sketch} the mode shapes of the system: considering the first mode, assuming an initial displacement $x = u_{11}$ of the barycentre to a small value like $1mm$, then from the eigenvectors we have that the angular displacement is $q = u_{21} = 4.343mrad$; using the linearised relations we can compute the displacements of the bearings and the tool tip as $x_A= -0.303mm$, $x_B = 0.566mm$ and $x_C = 2.303mm$. \\ Similarly for the second mode we assume $x = u_{12} = 1mm$ and the resulting angular displacement is $q = u_{22} = -7.676 mrad$, hence the other points are $x_A = 3.03mm$, $x_B = 1.768mm$ and $x_C = -1.303$.
+			
+			We can also compute the position of the \textbf{nodes} (the \textit{instantaneous centre of rotation}) of both modes that, respect from point $C$, are distanced to a value $x_{ni} = x_{Ci}/q$ resulting in the two cases $x_{n1} = 0.530mm$ and $x_{n2} = 0.170mm$.
+			
+			\item If we now want to find the amplitude of the displacement of the tool tip 	knowing that the load is an harmonic function with an amplitude of $p_0 = 1000N$ and the shaft is rotating at $800rpm$. The first thing is to convert this last value in $rad/s$ as $2\pi\frac{800}{60} = 83.776rad /s= \omega^\textrm{shaft}$. \\
+			In order to determine the displacement on the point $C$ is firstly necessary to solve the dynamic of the system: applying the Laplace transform on the linear system what we obtain is 
+			\[ \mat M s^2 \vec{X(s) \\ Q(s)} + \mat K \vec{X(s) \\ Q(s)} = \vec{P(s) \\ \frac L2 P(s)	} \]
+			Making explicit the transforms of the displacement $X(s)$ and rotation $Q(s)$ of the system as function of the matrices $\mat M,\mat K$ and the force input transform $P(s)$ we obtain the transfer functions
+			\[ 	X(s) = \underbrace{ \frac{1.1\cdot 10^6 + 2.497s^2}{207.83 s^4 + 6.659\cdot 10^7 s^2 + 10^{12}} }_{G_{PX}(s)} P(s) \qquad Q(s) = \underbrace{ \frac{ 5\cdot 10^{-6} + 24.97s^2 }{207.83 s^4 + 6.659\cdot 10^7 s^2 + 10^{12}} }_{G_{PQ}(s)} P(s) \]
+			Knowing the linearized expression $x_C = x + \frac L 2 q$, applying the Laplace transform on such expression evaluates to $X_C(s) = X(s) + \frac L 2 Q(s)$: this relation allows so to compute the transfer function $G_{PC}$ that relates the transform $P(s)$ with the one of the point $C$:
+			\[ X_C(s) = \left( G_{PX}(s) + \frac L 2 G_{PQ}\right) P(s)  =  \underbrace{ \frac 1 2 \frac{ 5.2 \cdot 10^6 + 19.976s^2 }{207.83 s^4 + 6.659\cdot 10^7 s^2 + 10^{12}} }_{G_{PC}(s)} P(s) \]
+			We observe that the poles of this transfer function are unaltered (they are in fact a property of the system). Having no damping the evaluation of $G_{PC}(s)$ will always result in a real number, and in particular to compute how the displacement of the tip, knowing that the input is sinusoidal, we can consider the relation
+			\[ x_C(t) = G_{PC}\big(j \omega^\textrm{shaft}\big) p_0 \cos\big(\omega^\textrm{shaft} t + \varphi\big) = 4.66\cdot 10^{-4} \cos(83.776 t + \varphi) \]
+			where $\varphi$ is any initial phase on the load; note that in general $G_{PC}$ can be both positive (displacement in phase) or negative (displacement in phase opposition).
+			
+			\item the definition of the transfer function $G_{PC}(s)$ allows also to compute the recommended angular velocity of the system we have to solve $G_{PC}(j\omega) = 0$; determining the solutions as $\omega_z = \pm 510.211 rad/s$ (by simply solving the denominator $5.2\cdot 10^6 - 19.976 \omega_z^2$)
+			
+			
+		\end{enumerate}
 		
 		
 		
